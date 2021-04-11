@@ -1,0 +1,104 @@
+import random 
+
+database = {}
+
+
+def init():
+    
+    print("Welcome to BankSifora")
+    
+    haveAccount = int(input("Do you have an account with BankSifora: 1 (yes) 2(no) \n"))
+
+    if(haveAccount == 1):
+    
+        bank0peration(["first","second"])
+    elif(haveAccount == 2):
+            
+        register()
+            
+    else:
+        print("Not a invalid option")
+        init()
+
+
+def login():
+    print("^Login^")
+    
+
+    accountNumberFormUser = int(input("what is your account number? \n"))
+    password = input("what is your password \n")
+
+    for accountNumber, userDetails in database.items():
+        if(accountNumber == accountNumberFormUser):
+            if(userDetails[3] == password):
+                    bank0peration(userDetails)
+                    
+
+    print('Invalid account or password')
+    login()
+   
+
+def register():
+    print("^Register^")
+    email = input("What is your email adress?\n")
+    first_name = input("What is your First name?\n")
+    last_name = input("What is your Last name?\n")
+    password = input("Creat a password for your self \n")
+
+    accountNumber = generationAccountNumber()
+
+    database[accountNumber] = [first_name, last_name, email, password]
+
+    print("Your accout has been created")
+    print("== ==== ==== ======= ====== ====")
+    print("your account number is: %d" % accountNumber)
+    print("Make sure you keep it safe")
+    print("== ==== ===== ======= ======= ====")
+
+    # login()
+    bank0peration(database)
+
+def bank0peration(user):
+    accountNumberFormUser = int(input("what is your account number? \n"))
+   
+
+    import datetime
+    now = datetime.datetime.now()
+    print("currnet date and time is:")
+    print(now.strftime("%y-%m-%d %H:%M:%S"))
+
+    Trials = 3
+    Userpin = 2342
+
+    while Trials != 0:
+        UserExit = "N" 
+        pin = int(input("Please Enter your pin number: "))
+        if pin != Userpin:
+            Trials -=1
+            print("worng pin Number, You have", Trials, " Trials Left")
+        else:
+            UserExit = "Y" 
+            while UserExit == "Y":
+                UserChoice = input("Option 1: Deposit or Option 2: Withdraw: or Option 3: Complaint: ")
+                if UserChoice == "Option 1":
+                    UserDeposit = input ("Enter The money you Would Like to Deposit: ")
+                    print(UserDeposit, "$ Have Been Deposited into your Account")
+                if UserChoice == "Option 2":
+                    UserWithdraw = input("Enter the amount you would like to withdraw: ")
+                    print(UserWithdraw, "$ have Been withdrawn From your Account, take your cash")
+                if UserChoice == "Option 3":
+                    UserComplaint = input("What issue would you like to report: ")
+                    print(UserComplaint, "Thank you for contacting us")
+                UserExit = input ("would you like to continue? Y/N: ")
+            print("Thank you for using ATM")
+            Trials = 0
+
+
+
+def generationAccountNumber():
+
+    print("Geberating Account Number")
+
+    return random.randrange(222222222222, 999999999999)
+
+init()
